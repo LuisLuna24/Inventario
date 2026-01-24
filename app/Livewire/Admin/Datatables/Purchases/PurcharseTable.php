@@ -1,0 +1,102 @@
+<?php
+
+namespace App\Livewire\Admin\Datatables\Purchases;
+
+use App\Models\Purchase;
+use App\Models\Supplier;
+use Rappasoft\LaravelLivewireTables\DataTableComponent;
+use Rappasoft\LaravelLivewireTables\Views\Column;
+use Illuminate\Database\Eloquent\Builder;
+use Rappasoft\LaravelLivewireTables\Views\Filters\DateRangeFilter;
+use Rappasoft\LaravelLivewireTables\Views\Filters\MultiSelectDropdownFilter;
+use Rappasoft\LaravelLivewireTables\Views\Filters\MultiSelectFilter;
+
+class PurcharseTable extends DataTableComponent
+{
+    // protected $model = Purchases::class;
+
+    public function configure(): void
+    {
+        $this->setPrimaryKey('id');
+        $this->setDefaultSort('id', 'desc');
+    }
+
+    //=====================Filtors
+
+    public function filters(): array
+    {
+        return [
+            DateRangeFilter::make('Fecha')
+                ->config(['placeholder' => 'Selecione un rango de fechas'])
+                ->filter(function ($query, $dateRange) {
+                    $query->whereBetween('date', [
+                        $dateRange['minDate'],
+                        $dateRange['maxDate']
+                    ]);
+                }),
+            MultiSelectFilter::make('Proveedor')
+                ->options(
+                    Supplier::query()
+                        ->orderBy('name')
+                        ->get()
+                        ->keyBy('id')
+                        ->map(callback: fn($supplier) => $supplier->name)
+                        ->toArray()
+                )
+                ->setPillsSeparator('<br />')->filter(function ($query, array $selected) {
+                    $query->whereIn('supplier_id', $selected);
+                }),
+        ];
+    }
+
+    public function columns(): array
+    {
+        return [
+            Column::make("Id", "id")
+                ->sortable(),
+
+            Column::make("Voucher type", "voucher_type")
+                ->sortable(),
+            Column::make("Nro Comprobante")
+                ->label(
+                    fn($row) => $row->serie . '-' . $row->correlative
+                )
+                ->searchable(function (Builder $query, $term) {
+                    return $query->orWhereRaw('CONCAT(serie, "-", correlative) LIKE ?', ["%{$term}%"]);
+                }),
+            Column::make("Serie", "serie")
+                ->sortable()
+                ->deselected(),
+
+            Column::make("Correlative", "correlative")
+                ->sortable()
+                ->deselected(),
+
+            Column::make("Fecha", "date")
+                ->sortable()
+                ->format(fn($value) => $value->format('Y-m-d')),
+
+            Column::make("Proveedor", "supplier.name")
+                ->searchable()
+                ->sortable(),
+
+            Column::make("Almacen", "warehouse.name")
+                ->sortable(),
+
+            Column::make("Total", "total")
+                ->sortable()
+                ->format(fn($value) => '$ ' . number_format($value, 2, '.', ',')),
+
+            Column::make("Acciones")
+                ->label(function ($row) {
+                    return view('admin.purchases.purchases.actions', ['purchase' => $row]);
+                })
+        ];
+    }
+
+    public function builder(): Builder
+    {
+        return Purchase::query()
+            ->with(['supplier', 'purchaseOrder', 'warehouse']);
+    }
+}
