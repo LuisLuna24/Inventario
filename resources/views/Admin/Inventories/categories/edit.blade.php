@@ -28,6 +28,8 @@
 
             <x-w-input label="Nombre" name="name" placeholder="Nombre de la categoría"
                 value="{{ old('name', $category->name) }}" />
+            <x-w-input label="Porcentaje" name="porcent" placeholder="Porcentaje de ganancia (Eje. 100)"
+                value="{{ old('porcent', $category->porcent) }}" />
             <x-w-textarea label="Descripción" name="description" placeholder="Descripción de la categoría">
                 {{ old('description', $category->description) }}
             </x-w-textarea>

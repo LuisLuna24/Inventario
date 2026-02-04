@@ -13,7 +13,7 @@ class CategoryTable extends DataTableComponent
     public function configure(): void
     {
         $this->setPrimaryKey('id');
-        $this->setDefaultSort('id','desc');
+        $this->setDefaultSort('id', 'desc');
     }
 
     public function columns(): array
@@ -25,6 +25,8 @@ class CategoryTable extends DataTableComponent
                 ->searchable()
                 ->sortable(),
             Column::make("Descripción", "description")
+                ->sortable(),
+            Column::make("Ganancia", "porcent")
                 ->sortable(),
             Column::make("Acciones")
                 ->label(function ($row) {

@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin\Sales;
 
 use App\Http\Controllers\Controller;
 use App\Models\Customer;
+use App\Models\Quote;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 
 class QuoteController extends Controller
@@ -22,5 +24,14 @@ class QuoteController extends Controller
     public function create()
     {
         return view("admin.sales.quotes.create");
+    }
+
+    public function pdf(Quote $quote)
+    {
+        $pdf = Pdf::loadView('admin.sales.quotes.pdf', [
+            'quote' => $quote,
+        ]);
+
+        return $pdf->download("cotizacion_{$quote->id}.pdf");
     }
 }

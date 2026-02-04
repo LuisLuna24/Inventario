@@ -49,6 +49,8 @@ class ProductTable extends DataTableComponent
                 ->sortable(),
             Column::make("Precio", "price")
                 ->sortable(),
+            Column::make("Costo", "cost")
+                ->sortable(),
             Column::make("Stock", 'stock')
                 ->sortable()
                 ->format(function ($value, $row) {

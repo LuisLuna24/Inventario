@@ -24,9 +24,9 @@ class DatabaseSeeder extends Seeder
 
         ]);
 
-        //Customer::factory(20)->create();
-        //Supplier::factory(5)->create();
-        //Product::factory(100)->create();
+        Customer::factory(20)->create();
+        Supplier::factory(5)->create();
+        Product::factory(100)->create();
 
     }
 }

@@ -54,7 +54,7 @@ class Product extends Model
 
     public function productables()
     {
-        return $this->hasMany(Productable::class);
+        return $this->hasMany(Productable::class, 'product_id', 'id');
     }
 
     public function purchaseOrders()

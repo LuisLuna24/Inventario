@@ -33,6 +33,7 @@ class CategoryController extends Controller
         $data = $request->validate([
             "name" => ['required', 'string', 'max:255', 'unique:categories,name'],
             "description" => ['nullable', 'string', 'max:500'],
+            "porcent" => ['nullable', 'numeric', 'min:0'],
         ]);
 
         $category = Category::create($data);
@@ -62,6 +63,7 @@ class CategoryController extends Controller
         $data = $request->validate([
             "name" => ['required', 'string', 'max:255', 'unique:categories,name,' . $category->id],
             "description" => ['nullable', 'string', 'max:500'],
+            "porcent" => ['nullable', 'numeric', 'min:0'],
         ]);
 
         $category->update($data);
@@ -72,7 +74,7 @@ class CategoryController extends Controller
             'text' => 'La categoría se ha editado correctamente',
         ]);
 
-        return redirect()->route('admin.inventories.categories.index');
+        return redirect()->route('admin.categories.index');
     }
 
     /**
@@ -95,7 +97,7 @@ class CategoryController extends Controller
                 'text' => 'La categoría se ha eliminado con éxito',
             ]);
 
-            return redirect()->route('admin.inventories.categories.index');
+            return redirect()->route('admin.categories.index');
         }
     }
 }

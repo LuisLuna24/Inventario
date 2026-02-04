@@ -32,6 +32,11 @@ class Quote extends Model
         return $this->hasOne(Sale::class);
     }
 
+    public function warehouse()
+    {
+        return $this->belongsTo(Warehouse::class);
+    }
+
     public function products()
     {
         return $this->morphToMany(Product::class, 'productable')

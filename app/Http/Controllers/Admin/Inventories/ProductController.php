@@ -24,7 +24,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-        $categories = Category::all();
+        $categories = Category::all(['id', 'name', 'porcent']);
         return view("admin.inventories.products.create", compact("categories"));
     }
 
@@ -149,9 +149,5 @@ class ProductController extends Controller
     {
         return view('admin.inventories.products.kardex', compact('product'));
     }
-
-    public function import()
-    {
-        return view('admin.products.import');
-    }
+    public function import() {}
 }

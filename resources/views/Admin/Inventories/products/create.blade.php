@@ -51,18 +51,39 @@
 
             <section class="space-y-4">
                 <h3 class="text-lg font-medium border-b pb-2">Finanzas y Organización</h3>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <x-w-input type="number" label="Costo" name="cost" placeholder="0.00"
-                        value="{{ old('cost') }}" step="0.01" hint="Lo que te cuesta a ti" />
+                <div x-data="{
+                    cost: {{ old('cost', 0) }},
+                    price: {{ old('price', 0) }},
+                    categoryId: '{{ old('category_id', '') }}',
+                    // Creamos un mapa de ID -> Porcentaje desde PHP
+                    categoryPorcents: {{ $categories->pluck('porcent', 'id')->toJson() }},
 
-                    <x-w-input type="number" label="Precio de Venta" name="price" placeholder="0.00"
-                        value="{{ old('price') }}" step="0.01" hint="Precio final al público" />
+                    calculate() {
+                        let porcent = this.categoryPorcents[this.categoryId] || 0;
+                        if (this.cost > 0) {
+                            let total = parseFloat(this.cost) + (parseFloat(this.cost) * parseFloat(porcent) / 100);
+                            this.price = total.toFixed(2);
+                        } else {
+                            this.price = 0;
+                        }
+                    }
+                }" x-init="$watch('cost', value => calculate());
+                $watch('categoryId', value => calculate())">
 
-                    <x-w-select label="Categoría" placeholder="Seleccione" name="category_id" :options="$categories"
-                        option-label="name" option-value="id" />
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
 
-                    <x-w-select label="Proveedor" placeholder="Seleccione" wire:model="supplier_id" :async-data="['api' => route('api.suppliers.index'), 'method' => 'POST']"
-                        option-label="name" option-value="id" />
+                        <x-w-input type="number" label="Costo" name="cost" x-model="cost" placeholder="0.00"
+                            step="0.01" hint="Lo que te cuesta a ti" />
+
+                        <x-w-input type="number" label="Precio de Venta" name="price" x-model="price"
+                            placeholder="0.00" step="0.01" hint="Precio final al público" readonly />
+
+                        <x-w-select label="Categoría" placeholder="Seleccione" name="category_id" x-model="categoryId"
+                            :options="$categories" option-label="name" option-value="id" x-on:change="calculate()" />
+
+                        <x-w-select label="Proveedor" placeholder="Seleccione" name="supplier_id" :async-data="['api' => route('api.suppliers.index'), 'method' => 'POST']"
+                            option-label="name" option-value="id" />
+                    </div>
                 </div>
             </section>
 

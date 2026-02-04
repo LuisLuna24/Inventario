@@ -18,22 +18,27 @@ class CategorySeeder extends Seeder
             [
                 "name" => "Stickers y Gráficos",
                 "description" => "Personaliza tu estilo con stickers de alta calidad y diseños exclusivos para tu moto.",
+                "porcent" => "100"
             ],
             [
                 "name" => "Refacciones",
                 "description" => "Componentes y piezas mecánicas esenciales para mantener tu moto siempre a punto.",
+                "porcent" => "45"
             ],
             [
                 "name" => "Aceites y Lubricantes",
                 "description" => "Aceites de alto rendimiento y lubricantes especializados para el cuidado del motor.",
+                "porcent" => "30"
             ],
             [
                 "name" => "Accesorios",
                 "description" => "Complementos y equipo adicional para mejorar la comodidad y funcionalidad de tu viaje.",
+                "porcent" => "90"
             ],
             [
                 "name" => "Wrap y Vinilos",
                 "description" => "Vinilos premium para cambiar el color o proteger la pintura original de tu motocicleta.",
+                "porcent" => "500"
             ],
         ];
 

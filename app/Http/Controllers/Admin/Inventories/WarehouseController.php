@@ -43,7 +43,7 @@ class WarehouseController extends Controller
             'text' => 'El almacen se ha agregado con éxito',
         ]);
 
-        return redirect()->route('admin.inventories.warehouses.edit', $warehouse);
+        return redirect()->route('admin.warehouses.index');
     }
 
     /**
@@ -72,7 +72,7 @@ class WarehouseController extends Controller
             'text' => 'El almacen se ha editado correctamente',
         ]);
 
-        return redirect()->route('admin.inventories.warehouses.edit', $warehouse);
+        return redirect()->route('admin.warehouses.edit', $warehouse);
     }
 
     /**
@@ -96,6 +96,6 @@ class WarehouseController extends Controller
             'text' => 'El almacen se ha eliminado con éxito',
         ]);
 
-        return redirect()->route('admin.inventories.warehouses.index');
+        return redirect()->route('admin.warehouses.index');
     }
 }
