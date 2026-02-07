@@ -124,21 +124,22 @@ Route::post('purchase-orders', function (Request $request) {
 
 Route::post('/warehouses', function (Request $request) {
     return Warehouse::select('id', 'name', 'location as description')
+        // Buscador por nombre
         ->when($request->search, function ($query, $search) {
-            $query->where(function ($q) use ($search) {
-                $q->where('name', 'like', '%' . $search . '%');
-            });
+            $query->where('name', 'like', '%' . $search . '%');
         })
-        ->when($request->exclude, function ($query, $exclude) {
-            $query->where('id', '!=', $exclude);
+        // EXCLUSIÓN: Solo aplica si 'exclude' tiene un valor real
+        ->when($request->filled('exclude'), function ($query) use ($request) {
+            $query->where('id', '!=', $request->exclude);
         })
+        // Para cuando seleccionas un valor y vuelves a editar (WireUI)
         ->when(
             $request->filled('selected'),
             function ($query) use ($request) {
                 $query->whereIn('id', $request->input('selected', []));
             },
             function ($query) {
-                $query->limit(10);
+                $query->limit(10); // Límite por defecto para no cargar miles de registros
             }
         )
         ->orderBy('name')

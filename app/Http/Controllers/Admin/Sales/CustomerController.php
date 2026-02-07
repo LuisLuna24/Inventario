@@ -51,7 +51,7 @@ class CustomerController extends Controller
                 'text' => 'El cliente se ha agregado con éxito',
             ]);
 
-            return redirect()->route('admin.sales.customers.edit', $customer);
+            return redirect()->route('admin.customers.edit', $customer);
         } catch (\Exception $e) {
             dd($e->getMessage());
         }
@@ -88,7 +88,7 @@ class CustomerController extends Controller
             'text' => 'El cliente se ha editado correctamente',
         ]);
 
-        return redirect()->route('admin.sales.customers.edit', $customer);
+        return redirect()->route('admin.customers.edit', $customer);
     }
 
     /**
@@ -120,6 +120,6 @@ class CustomerController extends Controller
             'text' => 'El cliente se ha eliminado con éxito',
         ]);
 
-        return redirect()->route('admin.sales.customers.index');
+        return redirect()->route('admin.customers.index');
     }
 }
