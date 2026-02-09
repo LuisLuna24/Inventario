@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Venta #{{ $transfer->serie }}-{{ str_pad($transfer->correlative, 4, '0', STR_PAD_LEFT) }}</title>
+    <title>Venta #{{ $model->serie }}-{{ str_pad($model->correlative, 4, '0', STR_PAD_LEFT) }}</title>
     <style>
         /* Configuración general */
         @page {
@@ -119,11 +119,11 @@
             </td>
 
             <td style="width: 40%; text-align: right;">
-                <div style="font-size: 18px; font-weight: bold; color: #e74c3c;">Transferencia</div>
-                <div style="font-size: 14px; margin-top: 5px;"># {{ $transfer->serie }}-{{ str_pad($transfer->correlative, 4, '0', STR_PAD_LEFT) }}</div>
+                <div style="font-size: 18px; font-weight: bold; color: #e74c3c;">modelencia</div>
+                <div style="font-size: 14px; margin-top: 5px;"># {{ $model->serie }}-{{ str_pad($model->correlative, 4, '0', STR_PAD_LEFT) }}</div>
                 <div style="margin-top: 10px;">
-                    <strong>Fecha:</strong> {{ \Carbon\Carbon::parse($transfer->date)->format('d/m/Y') }}<br>
-                    <span style="font-size: 10px; color: #888;">Hora: {{ \Carbon\Carbon::parse($transfer->created_at)->format('H:i A') }}</span>
+                    <strong>Fecha:</strong> {{ \Carbon\Carbon::parse($model->date)->format('d/m/Y') }}<br>
+                    <span style="font-size: 10px; color: #888;">Hora: {{ \Carbon\Carbon::parse($model->created_at)->format('H:i A') }}</span>
                 </div>
             </td>
         </tr>
@@ -135,10 +135,10 @@
         <tr>
             <td style="width: 48%; padding-left: 2%;">
                 <div class="info-box">
-                    <span class="info-title">Detalles de Transferencia</span>
-                    <strong>Almacén salida:</strong> {{ $transfer->originWarehouse->name ?? 'Principal' }}<br>
-                    <strong>Almacén ingreso:</strong> {{ $transfer->destinationWarehouse->name ?? 'Principal' }}<br>
-                    <strong>Obs:</strong> {{ $transfer->observation ?? 'Ninguna' }}
+                    <span class="info-title">Detalles de modelencia</span>
+                    <strong>Almacén salida:</strong> {{ $model->originWarehouse->name ?? 'Principal' }}<br>
+                    <strong>Almacén ingreso:</strong> {{ $model->destinationWarehouse->name ?? 'Principal' }}<br>
+                    <strong>Obs:</strong> {{ $model->observation ?? 'Ninguna' }}
                 </div>
             </td>
         </tr>
@@ -155,7 +155,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach ($transfer->products as $index => $product)
+            @foreach ($model->products as $index => $product)
                 {{-- Usamos $loop->even para la clase cebra --}}
                 <tr class="{{ $loop->even ? 'tr-even' : '' }}">
                     <td class="text-center">{{ $index + 1 }}</td>
@@ -176,11 +176,11 @@
         <table class="totals-table">
             <tr>
                 <td class="text-right gray-text">Subtotal:</td>
-                <td class="text-right">S/ {{ number_format($transfer->total, 2) }}</td>
+                <td class="text-right">S/ {{ number_format($model->total, 2) }}</td>
             </tr>
             <tr class="total-row">
                 <td class="text-right">Total a Pagar:</td>
-                <td class="text-right">S/ {{ number_format($transfer->total, 2) }}</td>
+                <td class="text-right">S/ {{ number_format($model->total, 2) }}</td>
             </tr>
         </table>
     </div>

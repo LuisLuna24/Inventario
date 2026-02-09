@@ -25,6 +25,8 @@ class SaleCreate extends Component
     public $total = 0.00;
     public $observation;
 
+    public $category_id;
+
     // Propiedades de productos y búsqueda
     public $product_id;
     public $products = [];
@@ -176,21 +178,25 @@ class SaleCreate extends Component
         $warehouseId = $this->warehouse_id;
 
         $catalog = Product::query()
+            // 1. Filtro de búsqueda (Agrupado para no romper otros filtros)
             ->where(function ($query) {
                 $query->where('name', 'like', '%' . $this->search . '%')
-                    ->orWhere('sku', 'like', '%' . $this->search . '%'); // Asumiendo que tienes una columna 'code'
+                    ->orWhere('sku', 'like', '%' . $this->search . '%');
+            })
+            ->when($this->category_id, function ($query) {
+                $query->where('category_id', $this->category_id);
             })
             ->when($warehouseId, function ($query) use ($warehouseId) {
-                // Subconsulta para obtener el stock actual (saldo) del almacén seleccionado
                 $query->addSelect([
                     'stock' => Inventory::select('quantity_balance')
                         ->whereColumn('product_id', 'products.id')
                         ->where('warehouse_id', $warehouseId)
-                        ->orderBy('id', 'desc') // El último registro tiene el saldo actual
+                        ->orderBy('id', 'desc')
                         ->limit(1)
                 ]);
             })
-            ->paginate(16, pageName:'products-page');
+            ->with('category')
+            ->paginate(16, pageName: 'products-page');
 
         return view('livewire.admin.sales.sales.sale-create', compact('catalog'));
     }

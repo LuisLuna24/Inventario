@@ -2,14 +2,19 @@
 
 namespace App\Livewire\Admin\Datatables\Purchases;
 
+use App\Mail\PdfSend;
 use App\Models\Purchase;
 use App\Models\Supplier;
 use Rappasoft\LaravelLivewireTables\DataTableComponent;
 use Rappasoft\LaravelLivewireTables\Views\Column;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Mail;
+use Livewire\Wrapped;
 use Rappasoft\LaravelLivewireTables\Views\Filters\DateRangeFilter;
 use Rappasoft\LaravelLivewireTables\Views\Filters\MultiSelectDropdownFilter;
 use Rappasoft\LaravelLivewireTables\Views\Filters\MultiSelectFilter;
+
+use function Livewire\after;
 
 class PurcharseTable extends DataTableComponent
 {
@@ -19,6 +24,12 @@ class PurcharseTable extends DataTableComponent
     {
         $this->setPrimaryKey('id');
         $this->setDefaultSort('id', 'desc');
+
+        $this->setConfigurableAreas([
+            'after-wrapper' => [
+                'admin.Pdf.modal',
+            ]
+        ]);
     }
 
     //=====================Filtors
@@ -98,5 +109,55 @@ class PurcharseTable extends DataTableComponent
     {
         return Purchase::query()
             ->with(['supplier', 'purchaseOrder', 'warehouse']);
+    }
+
+
+    //Propiedades
+
+    public $form = [
+        'open' => false,
+        'document' => '',
+        'addressee' => '',
+        'email' => '',
+        'model' => null,
+        'view_pdf_patch' => 'admin.purchases.purchases.pdf'
+    ];
+
+    public function openModal(Purchase $model)
+    {
+        $this->form['open'] = true;
+        $this->form['document'] = $model->serie . $model->correlative;
+        $this->form['addressee'] = $model->supplier->name;
+        $this->form['email'] = $model->supplier->email;
+        $this->form['model'] = $model;
+
+
+    }
+
+    public function sendEmail()
+    {
+        try {
+
+            $this->validate([
+                'form.email' => 'required|email'
+            ]);
+
+            Mail::to($this->form['email'])->send(new PdfSend($this->form));
+
+            $this->dispatch('swal', [
+                'icon' => 'success',
+                'title' => 'Correo enviado',
+                'text' => 'El correo se ha enviado con exito'
+            ]);
+
+            $this->reset('form');
+        } catch (\Exception $e) {
+            //dd($e->getMessage());
+            $this->dispatch('swal', [
+                'icon' => 'warning',
+                'title' => 'Ha ocurrio un error',
+                'text' => 'Lo sentimos ha ocurrido un error intente mas tarde'
+            ]);
+        }
     }
 }

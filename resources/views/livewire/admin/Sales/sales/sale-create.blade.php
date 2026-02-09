@@ -19,8 +19,12 @@
 
         <div class="lg:w-3/5 space-y-4">
             <x-w-card>
-                <div class="flex justify-between items-center mb-4 border-b pb-2 dark:border-gray-700">
-                    <h2 class="text-xl font-bold text-gray-700 dark:text-gray-200">Productos</h2>
+                <div class="flex justify-between items-end mb-4 border-b pb-2 dark:border-gray-700 gap-3">
+                    <div class="w-full">
+                        <h2 class="text-xl font-bold text-gray-700 dark:text-gray-200 mb-3">Productos</h2>
+                        <x-w-select label="Categoria" placeholder="Todas las categorias" wire:model.live="category_id"
+                            :async-data="['api' => route('api.categories.index'), 'method' => 'POST']" option-label="name" option-value="id"/>
+                    </div>
 
                     <div class="relative w-full max-w-md">
                         <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">

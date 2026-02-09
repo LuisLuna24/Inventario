@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Venta #{{ $sale->serie }}-{{ str_pad($sale->correlative, 4, '0', STR_PAD_LEFT) }}</title>
+    <title>Venta #{{ $model->serie }}-{{ str_pad($model->correlative, 4, '0', STR_PAD_LEFT) }}</title>
     <style>
         /* Configuración general */
         @page {
@@ -120,10 +120,10 @@
 
             <td style="width: 40%; text-align: right;">
                 <div style="font-size: 18px; font-weight: bold; color: #e74c3c;">VENTA</div>
-                <div style="font-size: 14px; margin-top: 5px;"># {{ $sale->serie }}-{{ str_pad($sale->correlative, 4, '0', STR_PAD_LEFT) }}</div>
+                <div style="font-size: 14px; margin-top: 5px;"># {{ $model->serie }}-{{ str_pad($model->correlative, 4, '0', STR_PAD_LEFT) }}</div>
                 <div style="margin-top: 10px;">
-                    <strong>Fecha:</strong> {{ \Carbon\Carbon::parse($sale->date)->format('d/m/Y') }}<br>
-                    <span style="font-size: 10px; color: #888;">Hora: {{ \Carbon\Carbon::parse($sale->created_at)->format('H:i A') }}</span>
+                    <strong>Fecha:</strong> {{ \Carbon\Carbon::parse($model->date)->format('d/m/Y') }}<br>
+                    <span style="font-size: 10px; color: #888;">Hora: {{ \Carbon\Carbon::parse($model->created_at)->format('H:i A') }}</span>
                 </div>
             </td>
         </tr>
@@ -136,17 +136,17 @@
             <td style="width: 48%; padding-right: 2%;">
                 <div class="info-box">
                     <span class="info-title">Cliente</span>
-                    <strong style="font-size: 13px;">{{ $sale->customer->name ?? 'Público General' }}</strong><br>
-                    <span style="font-size: 11px;">Email: {{ $sale->customer->email ?? '' }}</span>
-                    <span style="font-size: 11px;">Telefono: {{ $sale->customer->phone ?? '' }}</span>
-                    <span style="font-size: 11px;">{{ $sale->customer->address ?? '' }}</span>
+                    <strong style="font-size: 13px;">{{ $model->customer->name ?? 'Público General' }}</strong><br>
+                    <span style="font-size: 11px;">Email: {{ $model->customer->email ?? '' }}</span>
+                    <span style="font-size: 11px;">Telefono: {{ $model->customer->phone ?? '' }}</span>
+                    <span style="font-size: 11px;">{{ $model->customer->address ?? '' }}</span>
                 </div>
             </td>
             <td style="width: 48%; padding-left: 2%;">
                 <div class="info-box">
                     <span class="info-title">Detalles de Entrega</span>
-                    <strong>Almacén:</strong> {{ $sale->warehouse->name ?? 'Principal' }}<br>
-                    <strong>Obs:</strong> {{ $sale->observation ?? 'Ninguna' }}
+                    <strong>Almacén:</strong> {{ $model->warehouse->name ?? 'Principal' }}<br>
+                    <strong>Obs:</strong> {{ $model->observation ?? 'Ninguna' }}
                 </div>
             </td>
         </tr>
@@ -163,7 +163,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach ($sale->products as $index => $product)
+            @foreach ($model->products as $index => $product)
                 {{-- Usamos $loop->even para la clase cebra --}}
                 <tr class="{{ $loop->even ? 'tr-even' : '' }}">
                     <td class="text-center">{{ $index + 1 }}</td>
@@ -184,11 +184,11 @@
         <table class="totals-table">
             <tr>
                 <td class="text-right gray-text">Subtotal:</td>
-                <td class="text-right">S/ {{ number_format($sale->total, 2) }}</td>
+                <td class="text-right">S/ {{ number_format($model->total, 2) }}</td>
             </tr>
             <tr class="total-row">
                 <td class="text-right">Total a Pagar:</td>
-                <td class="text-right">S/ {{ number_format($sale->total, 2) }}</td>
+                <td class="text-right">S/ {{ number_format($model->total, 2) }}</td>
             </tr>
         </table>
     </div>

@@ -2,10 +2,12 @@
 
 namespace App\Livewire\Admin\Datatables\Movements;
 
+use App\Mail\PdfSend;
 use App\Models\Transfer;
 use Rappasoft\LaravelLivewireTables\DataTableComponent;
 use Rappasoft\LaravelLivewireTables\Views\Column;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Mail;
 use Rappasoft\LaravelLivewireTables\Views\Filters\DateRangeFilter;
 
 class TransferTable extends DataTableComponent
@@ -15,6 +17,13 @@ class TransferTable extends DataTableComponent
     public function configure(): void
     {
         $this->setPrimaryKey('id');
+        $this->setDefaultSort('id','desc');
+
+        $this->setConfigurableAreas([
+            'after-wrapper' => [
+                'admin.Pdf.modal',
+            ]
+        ]);
     }
 
      //=====================Filtors
@@ -73,5 +82,53 @@ class TransferTable extends DataTableComponent
 
         return Transfer::query()
             ->with(['originWarehouse', 'destinationWarehouse']);
+    }
+
+    //Propiedades
+
+    public $form = [
+        'open' => false,
+        'document' => '',
+        'addressee' => '',
+        'email' => '',
+        'model' => null,
+        'view_pdf_patch' => 'admin.purchases.purchase_orders.pdf'
+    ];
+
+    public function openModal(Transfer $model)
+    {
+        $this->form['open'] = true;
+        $this->form['document'] = $model->serie . $model->correlative;
+        $this->form['addressee'] = $model->warehouse->name;
+        $this->form['model'] = $model;
+
+
+    }
+
+    public function sendEmail()
+    {
+        try {
+
+            $this->validate([
+                'form.email' => 'required|email'
+            ]);
+
+            Mail::to($this->form['email'])->send(new PdfSend($this->form));
+
+            $this->dispatch('swal', [
+                'icon' => 'success',
+                'title' => 'Correo enviado',
+                'text' => 'El correo se ha enviado con exito'
+            ]);
+
+            $this->reset('form');
+        } catch (\Exception $e) {
+            //dd($e->getMessage());
+            $this->dispatch('swal', [
+                'icon' => 'warning',
+                'title' => 'Ha ocurrio un error',
+                'text' => 'Lo sentimos ha ocurrido un error intente mas tarde'
+            ]);
+        }
     }
 }

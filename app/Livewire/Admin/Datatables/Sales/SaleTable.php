@@ -2,10 +2,12 @@
 
 namespace App\Livewire\Admin\Datatables\Sales;
 
+use App\Mail\PdfSend;
 use App\Models\Sale;
 use Rappasoft\LaravelLivewireTables\DataTableComponent;
 use Rappasoft\LaravelLivewireTables\Views\Column;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Mail;
 use Rappasoft\LaravelLivewireTables\Views\Filters\DateRangeFilter;
 
 class SaleTable extends DataTableComponent
@@ -16,6 +18,12 @@ class SaleTable extends DataTableComponent
     {
         $this->setPrimaryKey('id');
         $this->setDefaultSort('id', 'desc');
+
+        $this->setConfigurableAreas([
+            'after-wrapper' => [
+                'admin.Pdf.modal',
+            ]
+        ]);
     }
 
      //=====================Filtors
@@ -82,5 +90,54 @@ class SaleTable extends DataTableComponent
     {
         return Sale::query()
             ->with(['customer', 'warehouse', 'quote']);
+    }
+
+    //Propiedades
+
+    public $form = [
+        'open' => false,
+        'document' => '',
+        'addressee' => '',
+        'email' => '',
+        'model' => null,
+        'view_pdf_patch' => 'admin.purchases.purchase_orders.pdf'
+    ];
+
+    public function openModal(Sale $model)
+    {
+        $this->form['open'] = true;
+        $this->form['document'] = $model->serie . $model->correlative;
+        $this->form['addressee'] = $model->customer?->name ?? 'Cliente sin registrar';
+        $this->form['email'] = $model->customer->email;
+        $this->form['model'] = $model;
+
+
+    }
+
+    public function sendEmail()
+    {
+        try {
+
+            $this->validate([
+                'form.email' => 'required|email'
+            ]);
+
+            Mail::to($this->form['email'])->send(new PdfSend($this->form));
+
+            $this->dispatch('swal', [
+                'icon' => 'success',
+                'title' => 'Correo enviado',
+                'text' => 'El correo se ha enviado con exito'
+            ]);
+
+            $this->reset('form');
+        } catch (\Exception $e) {
+            //dd($e->getMessage());
+            $this->dispatch('swal', [
+                'icon' => 'warning',
+                'title' => 'Ha ocurrio un error',
+                'text' => 'Lo sentimos ha ocurrido un error intente mas tarde'
+            ]);
+        }
     }
 }

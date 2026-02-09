@@ -28,7 +28,7 @@ class TransferController extends Controller
      public function pdf(Transfer $transfer)
     {
         $pdf = Pdf::loadView('admin.movements.transfers.pdf', [
-            'transfer' => $transfer,
+            'model' => $transfer,
         ]);
 
         return $pdf->download("transferencia{$transfer->id}.pdf");

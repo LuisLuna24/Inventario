@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Category;
 use App\Models\Customer;
 use App\Models\Product;
 use App\Models\PurchaseOrder;
@@ -217,3 +218,25 @@ Route::post('/reasons', function (Request $request) {
         ->orderBy('name')
         ->get();
 })->name('api.reasons.index');
+
+Route::post('/categories', function (Request $request) {
+    return Category::select('id', 'name')
+        ->when($request->search, function ($query, $search) {
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'like', '%' . $search . '%');
+            });
+        })
+        ->when(
+            $request->filled('selected'),
+            function ($query) use ($request) {
+                $query->whereIn('id', $request->input('selected', []));
+            },
+            function ($query) {
+                $query->limit(10);
+            }
+        )
+        ->orderBy('name')
+        ->get();
+})->name('api.categories.index');
+
+

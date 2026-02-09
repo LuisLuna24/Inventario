@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Venta #{{ $movement->serie }}-{{ str_pad($movement->correlative, 4, '0', STR_PAD_LEFT) }}</title>
+    <title>Venta #{{ $model->serie }}-{{ str_pad($model->correlative, 4, '0', STR_PAD_LEFT) }}</title>
     <style>
         /* Configuración general */
         @page {
@@ -119,11 +119,11 @@
             </td>
 
             <td style="width: 40%; text-align: right;">
-                <div style="font-size: 18px; font-weight: bold; color: #e74c3c;">{{ $movement->type == 1 ? 'Ingreso' : 'Salida' }}</div>
-                <div style="font-size: 14px; margin-top: 5px;"># {{ $movement->serie }}-{{ str_pad($movement->correlative, 4, '0', STR_PAD_LEFT) }}</div>
+                <div style="font-size: 18px; font-weight: bold; color: #e74c3c;">{{ $model->type == 1 ? 'Ingreso' : 'Salida' }}</div>
+                <div style="font-size: 14px; margin-top: 5px;"># {{ $model->serie }}-{{ str_pad($model->correlative, 4, '0', STR_PAD_LEFT) }}</div>
                 <div style="margin-top: 10px;">
-                    <strong>Fecha:</strong> {{ \Carbon\Carbon::parse($movement->date)->format('d/m/Y') }}<br>
-                    <span style="font-size: 10px; color: #888;">Hora: {{ \Carbon\Carbon::parse($movement->created_at)->format('H:i A') }}</span>
+                    <strong>Fecha:</strong> {{ \Carbon\Carbon::parse($model->date)->format('d/m/Y') }}<br>
+                    <span style="font-size: 10px; color: #888;">Hora: {{ \Carbon\Carbon::parse($model->created_at)->format('H:i A') }}</span>
                 </div>
             </td>
         </tr>
@@ -136,14 +136,14 @@
             <td style="width: 48%; padding-right: 2%;">
                 <div class="info-box">
                     <span class="info-title">Motivo</span>
-                    <strong style="font-size: 13px;">{{ $movement->reason->name ?? 'Sin razón' }}</strong><br>
+                    <strong style="font-size: 13px;">{{ $model->reason->name ?? 'Sin razón' }}</strong><br>
                 </div>
             </td>
             <td style="width: 48%; padding-left: 2%;">
                 <div class="info-box">
-                    <span class="info-title">Detalles de {{ $movement->type == 1 ? 'ingreso' : 'salida' }}</span>
-                    <strong>Almacén:</strong> {{ $movement->warehouse->name ?? 'Principal' }}<br>
-                    <strong>Obs:</strong> {{ $movement->observation ?? 'Ninguna' }}
+                    <span class="info-title">Detalles de {{ $model->type == 1 ? 'ingreso' : 'salida' }}</span>
+                    <strong>Almacén:</strong> {{ $model->warehouse->name ?? 'Principal' }}<br>
+                    <strong>Obs:</strong> {{ $model->observation ?? 'Ninguna' }}
                 </div>
             </td>
         </tr>
@@ -160,7 +160,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach ($movement->products as $index => $product)
+            @foreach ($model->products as $index => $product)
                 {{-- Usamos $loop->even para la clase cebra --}}
                 <tr class="{{ $loop->even ? 'tr-even' : '' }}">
                     <td class="text-center">{{ $index + 1 }}</td>
@@ -181,11 +181,11 @@
         <table class="totals-table">
             <tr>
                 <td class="text-right gray-text">Subtotal:</td>
-                <td class="text-right">S/ {{ number_format($movement->total, 2) }}</td>
+                <td class="text-right">S/ {{ number_format($model->total, 2) }}</td>
             </tr>
             <tr class="total-row">
                 <td class="text-right">Total a Pagar:</td>
-                <td class="text-right">S/ {{ number_format($movement->total, 2) }}</td>
+                <td class="text-right">S/ {{ number_format($model->total, 2) }}</td>
             </tr>
         </table>
     </div>
