@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\Movements\TransferController;
 use App\Http\Controllers\Admin\Purchase\PurchaseController;
 use App\Http\Controllers\Admin\Purchase\PurchaseOrderController;
 use App\Http\Controllers\Admin\Purchase\SupplierController;
+use App\Http\Controllers\Admin\Reports\ReportController;
 use App\Http\Controllers\Admin\Sales\CustomerController;
 use App\Http\Controllers\Admin\Sales\QuoteController;
 use App\Http\Controllers\Admin\Sales\SaleController;
@@ -86,3 +87,10 @@ Route::resource('transfers', TransferController::class)->only('index', 'create')
 
 Route::get('transfers/{transfer}/pdf', [TransferController::class, 'pdf'])->name('transfers.pdf');
 
+//========== Reports
+
+Route::get('reports/top-products', [ReportController::class, 'topProducts'])->name('reports.top-products');
+
+Route::get('reports/top-costumers', [ReportController::class, 'topCustomers'])->name('reports.top-costumers');
+
+Route::get('reports/low-stock', [ReportController::class, 'lowStock'])->name('reports.low-stock');

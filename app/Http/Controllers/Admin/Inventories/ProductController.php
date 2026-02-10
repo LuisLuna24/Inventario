@@ -149,5 +149,14 @@ class ProductController extends Controller
     {
         return view('admin.inventories.products.kardex', compact('product'));
     }
-    public function import() {}
+
+    public function show()
+    {
+        return view('admin.inventories.products.import');
+    }
+
+    public function import()
+    {
+        return view('admin.inventories.products.import');
+    }
 }

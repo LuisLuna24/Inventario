@@ -113,8 +113,27 @@
         [
             'name' => 'Reportes',
             'icon' => 'svg/chart-bar.svg',
-            'route' => 'admin.customers.index',
-            'active' => ['admin.categories.*'],
+            'active' => ['admin.reports.*'],
+            'submenu' => [
+                [
+                    'name' => 'Productos más vendidos',
+                    'icon' => 'svg/arrows-exchange.svg',
+                    'route' => 'admin.reports.top-products',
+                    'active' => 'admin.reports.top-products',
+                ],
+                [
+                    'name' => 'Productos con poco stock',
+                    'icon' => 'svg/transfer-in.svg',
+                    'route' => 'admin.reports.low-stock',
+                    'active' => 'admin.reports.low-stock',
+                ],
+                [
+                    'name' => 'Clientes más frecuentes',
+                    'icon' => 'svg/transfer-in.svg',
+                    'route' => 'admin.reports.top-customers',
+                    'active' => 'admin.reports.top-customers',
+                ],
+            ],
         ],
 
         [
