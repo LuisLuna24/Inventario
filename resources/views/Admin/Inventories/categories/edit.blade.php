@@ -21,21 +21,5 @@
         </div>
     </div>
 
-    <x-w-card>
-        <form class="space-y-4" method="POST" action="{{ route('admin.categories.update', $category) }}">
-            @csrf
-            @method('PUT')
-
-            <x-w-input label="Nombre" name="name" placeholder="Nombre de la categoría"
-                value="{{ old('name', $category->name) }}" />
-            <x-w-input label="Porcentaje" name="porcent" placeholder="Porcentaje de ganancia (Eje. 100)"
-                value="{{ old('porcent', $category->porcent) }}" />
-            <x-w-textarea label="Descripción" name="description" placeholder="Descripción de la categoría">
-                {{ old('description', $category->description) }}
-            </x-w-textarea>
-            <div class="flex justify-end">
-                <x-w-button type="submit" blue>Guardar</x-w-button>
-            </div>
-        </form>
-    </x-w-card>
+    @livewire('admin.inventories.categories.forms', ['category' => $category])
 </x-admin-layout>

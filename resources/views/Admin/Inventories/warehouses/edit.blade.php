@@ -19,19 +19,6 @@
             </h1>
         </div>
     </div>
-    <x-w-card>
-        <form class="space-y-4" method="POST" action="{{ route('admin.warehouses.update', $warehouse) }}">
-            @csrf
-            @method('PUT')
 
-            <x-w-input label="Nombre" name="name" placeholder="Nombre del almacen"
-                value="{{ old('name', $warehouse->name) }}" />
-            <x-w-textarea label="Descripción" name="location" placeholder="Ubicación del almacen">
-                {{ old('location', $warehouse->location) }}
-            </x-w-textarea>
-            <div class="flex justify-end">
-                <x-w-button type="submit" blue>Guardar</x-w-button>
-            </div>
-        </form>
-    </x-w-card>
+    @livewire('admin.inventories.warehouses.forms', ['warehouse' => $warehouse])
 </x-admin-layout>

@@ -20,10 +20,10 @@ Route::get('/dashboard', function () {
 })->name('dashboard');
 
 //========== Categorias
-Route::resource('categories', CategoryController::class)->except('shows');
+Route::resource('categories', CategoryController::class)->only('index', 'create', 'edit','destroy');
 
 //========== Productos
-Route::resource('products', ProductController::class)->except('shows');
+Route::resource('products', ProductController::class)->only('index', 'create', 'edit','destroy');
 
 Route::post('products/{product}/dropzone', [ProductController::class, 'dropzone'])->name('products.dropzone');
 
@@ -36,15 +36,15 @@ Route::get('/products/import', [ProductController::class, 'import'])->name('prod
 Route::get('products/{product}/kardex', [ProductController::class, 'kardex'])->name('products.kardex');
 
 //========== Customers
-Route::resource('customers', CustomerController::class)->except('shows');
+Route::resource('customers', CustomerController::class)->only('index', 'create', 'edit','destroy');
 
 //========== Suppliers
 
-Route::resource('suppliers', SupplierController::class)->except('shows');
+Route::resource('suppliers', SupplierController::class)->only('index', 'create', 'edit','destroy');
 
 //========== Warehouses
 
-Route::resource('warehouses', WarehouseController::class)->except('shows');
+Route::resource('warehouses', WarehouseController::class)->only('index', 'create', 'edit','destroy');
 
 //========== Purchace Order
 
@@ -70,8 +70,6 @@ Route::get('quotes/{quote}/pdf', [QuoteController::class, 'pdf'])->name('quotes.
 Route::resource('sales', SaleController::class)->only('index', 'create');
 
 Route::get('sales/{sale}/pdf', [SaleController::class, 'pdf'])->name('sales.pdf');
-
-
 
 
 //========== Movements

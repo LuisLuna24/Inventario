@@ -59,76 +59,7 @@
             </div>
         </form>
     </div>
-    <x-w-card>
-        <form class="space-y-8" method="POST" action="{{ route('admin.products.update', $product) }}">
-            @csrf
-            @method('PUT')
-
-            <section class="space-y-4">
-                <div class="flex items-center justify-between border-b pb-2">
-                    <h3 class="text-lg font-medium">Información General</h3>
-                    <span class="text-sm text-gray-500 italic">ID del Producto: {{ $product->id }}</span>
-                </div>
-                <div class="grid grid-cols-1 gap-4">
-                    <x-w-input label="Nombre" name="name" placeholder="Nombre del producto"
-                        value="{{ old('name', $product->name) }}" />
-
-                    <x-w-textarea label="Descripción" name="description" placeholder="Descripción del producto">
-                        {{ old('description', $product->description) }}
-                    </x-w-textarea>
-                </div>
-            </section>
-
-            <section class="space-y-4">
-                <h3 class="text-lg font-medium border-b pb-2">Identificación e Inventario</h3>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <x-w-input label="Sku" name="sku" placeholder="Sku del producto"
-                        value="{{ old('sku', $product->sku) }}" />
-
-                    <x-w-input type="number" label="Barcode" name="barcode" placeholder="Barcode del producto"
-                        value="{{ old('barcode', $product->barcode) }}" />
-                </div>
-            </section>
-
-            <section class="space-y-4">
-                <h3 class="text-lg font-medium border-b pb-2 flex items-center gap-2">
-                    <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z">
-                        </path>
-                    </svg>
-                    Finanzas y Clasificación
-                </h3>
-
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                    <x-w-input type="number" label="Costo" name="cost" prefix="$" placeholder="0.00"
-                        value="{{ old('cost', $product->cost) }}" step="0.01" />
-
-                    <x-w-input type="number" label="Precio" name="price" prefix="$" placeholder="0.00"
-                        value="{{ old('price', $product->price) }}" step="0.01" />
-
-                    <x-w-native-select label="Categoría" name="category_id">
-                        <option value="">Seleccione...</option>
-                        @foreach ($categories as $item)
-                            <option value="{{ $item->id }}" @selected(old('category_id', $product->category_id) == $item->id)>
-                                {{ $item->name }}
-                            </option>
-                        @endforeach
-                    </x-w-native-select>
-
-                    <x-w-select label="Proveedor"
-                        placeholder="{{ $product->supplier_id ? $product->supplier->name : 'Seleccione un proveedero' }}"
-                        name="supplier_id" :async-data="['api' => route('api.suppliers.index'), 'method' => 'POST']" option-label="name" option-value="id"
-                        value="{{ old('supplier_id', $product->supplier_id) == $item->id }}" />
-                </div>
-            </section>
-
-            <div class="flex justify-end pt-4 gap-x-3">
-                <x-w-button href="{{ route('admin.products.index') }}" secondary flat>Cancelar</x-w-button>
-                <x-w-button type="submit" blue spinner="save">Actualizar Producto</x-w-button>
-            </div>
-        </form>
-    </x-w-card>
+    @livewire('admin.inventories.products.forms',['product' => $product])
 
     @push('js')
         <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>

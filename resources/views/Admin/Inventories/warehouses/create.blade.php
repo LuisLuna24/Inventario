@@ -21,18 +21,6 @@
         </div>
     </div>
 
-    <x-w-card>
-        <form class="space-y-4" method="POST" action="{{ route('admin.warehouses.store') }}">
-            @csrf
-
-            <x-w-input label="Nombre" name="name" placeholder="Nombre del almacen" value="{{ old('name') }}" />
-            <x-w-textarea label="Ubicación" name="location" placeholder="Ubicación del almacen">
-                {{ old('location') }}
-            </x-w-textarea>
-            <div class="flex justify-end">
-                <x-w-button type="submit" blue>Guardar</x-w-button>
-            </div>
-        </form>
-    </x-w-card>
+    @livewire('admin.inventories.warehouses.forms')
 
 </x-admin-layout>

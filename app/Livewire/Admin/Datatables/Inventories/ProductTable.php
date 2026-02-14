@@ -29,8 +29,11 @@ class ProductTable extends DataTableComponent
     public function columns(): array
     {
         return [
-            Column::make("Id", "id")
+            Column::make("Sku", "sku")
+                ->searchable()
                 ->sortable(),
+            Column::make("Id", "id")
+                ->deselected(),
             ImageColumn::make("Img")
                 ->location(
                     fn($row) => $row->image
@@ -44,12 +47,7 @@ class ProductTable extends DataTableComponent
                 ->sortable(),
             Column::make("Categoría", 'category.name')
                 ->sortable(),
-            Column::make("Sku", "sku")
-                ->searchable()
-                ->sortable(),
             Column::make("Precio", "price")
-                ->sortable(),
-            Column::make("Costo", "cost")
                 ->sortable(),
             Column::make("Stock", 'stock')
                 ->sortable()
