@@ -13,6 +13,7 @@ use App\Http\Controllers\Admin\Reports\ReportController;
 use App\Http\Controllers\Admin\Sales\CustomerController;
 use App\Http\Controllers\Admin\Sales\QuoteController;
 use App\Http\Controllers\Admin\Sales\SaleController;
+use App\Http\Controllers\admin\users\UsersController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/dashboard', function () {
@@ -64,20 +65,17 @@ Route::resource('quotes', QuoteController::class)->only('index', 'create');
 
 Route::get('quotes/{quote}/pdf', [QuoteController::class, 'pdf'])->name('quotes.pdf');
 
-
 //========== Sales
 
 Route::resource('sales', SaleController::class)->only('index', 'create');
 
 Route::get('sales/{sale}/pdf', [SaleController::class, 'pdf'])->name('sales.pdf');
 
-
 //========== Movements
 
 Route::resource('movements', MovementController::class)->only('index', 'create');
 
 Route::get('movements/{movement}/pdf', [MovementController::class, 'pdf'])->name('movements.pdf');
-
 
 //========== Transfers
 
@@ -92,3 +90,7 @@ Route::get('reports/top-products', [ReportController::class, 'topProducts'])->na
 Route::get('reports/top-costumers', [ReportController::class, 'topCustomers'])->name('reports.top-costumers');
 
 Route::get('reports/low-stock', [ReportController::class, 'lowStock'])->name('reports.low-stock');
+
+//========== Users
+
+Route::resource('users', UsersController::class)->only('index', 'create', 'edit','destroy');

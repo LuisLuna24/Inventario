@@ -168,8 +168,8 @@ return [
         'type' => 'link',
         'title' => 'Usuarios',
         'icon' => 'svg/users.svg',
-        'route' => 'admin.customers.index',
-        'active' => ['admin.categories.*'],
+        'route' => 'admin.users.index',
+        'active' => ['admin.users.*'],
     ],
 
     [

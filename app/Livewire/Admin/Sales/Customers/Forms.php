@@ -10,7 +10,7 @@ use Livewire\Component;
 class Forms extends Component
 {
 
-public Customer $customer;
+    public Customer $customer;
 
     public $typeForm = 1;
 
