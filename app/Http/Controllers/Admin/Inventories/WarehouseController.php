@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin\Inventories;
 use App\Http\Controllers\Controller;
 use App\Models\Warehouse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Session;
 
 class WarehouseController extends Controller
@@ -14,6 +15,8 @@ class WarehouseController extends Controller
      */
     public function index()
     {
+
+    Gate::authorize('view-warehouses');
         return view("admin.inventories.warehouses.index");
     }
 
@@ -22,16 +25,19 @@ class WarehouseController extends Controller
      */
     public function create()
     {
+        Gate::authorize('create-warehouses');
         return view("admin.inventories.warehouses.create");
     }
 
     public function edit(Warehouse $warehouse)
     {
+        Gate::authorize('edit-warehouses');
         return view("admin.inventories.warehouses.edit", compact("warehouse"));
     }
 
     public function destroy(Warehouse $warehouse)
     {
+        Gate::authorize('delete-warehouses');
         if ($warehouse->sales()->exists() || $warehouse->purchases()->exists() || $warehouse->inventories()->exists() || $warehouse->transfersFrom()->exists() || $warehouse->transfersTo()->exists()) {
             Session::flash('swal', [
                 'icon' => 'error',

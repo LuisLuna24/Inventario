@@ -13,6 +13,7 @@ use App\Http\Controllers\Admin\Reports\ReportController;
 use App\Http\Controllers\Admin\Sales\CustomerController;
 use App\Http\Controllers\Admin\Sales\QuoteController;
 use App\Http\Controllers\Admin\Sales\SaleController;
+use App\Http\Controllers\admin\users\RoleController;
 use App\Http\Controllers\admin\users\UsersController;
 use Illuminate\Support\Facades\Route;
 
@@ -94,3 +95,7 @@ Route::get('reports/low-stock', [ReportController::class, 'lowStock'])->name('re
 //========== Users
 
 Route::resource('users', UsersController::class)->only('index', 'create', 'edit','destroy');
+
+//========== Roles
+
+Route::resource('roles', RoleController::class)->only('index', 'create', 'edit','destroy');

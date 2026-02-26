@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 
@@ -13,23 +14,25 @@ class ProductController extends Controller
 {
     public function index()
     {
+        Gate::authorize('view-products');
         return view("admin.inventories.products.index");
     }
 
     public function create()
     {
-        $categories = Category::all(['id', 'name', 'porcent']);
-        return view("admin.inventories.products.create", compact("categories"));
+        Gate::authorize('create-products');
+        return view("admin.inventories.products.create");
     }
 
     public function edit(Product $product)
     {
-        $categories = Category::all();
-        return view("admin.inventories.products.edit", compact('product', 'categories'));
+        Gate::authorize('edit-products');
+        return view("admin.inventories.products.edit", compact('product'));
     }
 
     public function destroy(Product $product)
     {
+        Gate::authorize('delete-products');
         $checkRelations = [
             'inventories'    => 'inventarios asociados',
             'purchaseOrders' => 'órdenes asociadas',

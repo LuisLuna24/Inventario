@@ -1,10 +1,15 @@
 <div class="flex items-center space-x-2">
-    <x-w-button href="{{ route('admin.users.edit', $user) }}" blue xs>Editar</x-w-button>
-    <form action="{{ route('admin.users.destroy', $user) }}" class="delete-form" method="post">
+    @can('edit-users')
+        <x-w-button href="{{ route('admin.users.edit', $user) }}" blue xs>Editar</x-w-button>
+    @endcan
 
-        @csrf
-        @method('DELETE')
+    @can('delete-users')
+        <form action="{{ route('admin.users.destroy', $user) }}" class="delete-form" method="post">
 
-        <x-w-button type="submit" red xs>Eliminar</x-w-button>
-    </form>
+            @csrf
+            @method('DELETE')
+
+            <x-w-button type="submit" red xs>Eliminar</x-w-button>
+        </form>
+    @endcan
 </div>

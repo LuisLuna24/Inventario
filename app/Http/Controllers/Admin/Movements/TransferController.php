@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Transfer;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class TransferController extends Controller
 {
@@ -14,6 +15,7 @@ class TransferController extends Controller
      */
     public function index()
     {
+        Gate::authorize('view-transfers');
         return view("admin.movements.transfers.index");
     }
 
@@ -22,6 +24,7 @@ class TransferController extends Controller
      */
     public function create()
     {
+        Gate::authorize('create-transfers');
         return view("admin.movements.transfers.create");
     }
 

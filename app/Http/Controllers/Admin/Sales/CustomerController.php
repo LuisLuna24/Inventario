@@ -6,28 +6,35 @@ use App\Http\Controllers\Controller;
 use App\Models\Customer;
 use App\Models\Identity;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Session;
 
 class CustomerController extends Controller
 {
     public function index()
     {
-
+        Gate::authorize('view-customers');
         return view("admin.sales.customers.index");
     }
 
     public function create()
     {
+        Gate::authorize('create-customers');
+
         return view("admin.sales.customers.create");
     }
 
     public function edit(Customer $customer)
     {
+        Gate::authorize('edit-customers');
+
         return view("admin.sales.customers.edit", compact("customer"));
     }
 
     public function destroy(Customer $customer)
     {
+        Gate::authorize('delete-customers');
+
         if ($customer->quotes()->exists()) {
             Session::flash('swal', [
                 'icon' => 'error',

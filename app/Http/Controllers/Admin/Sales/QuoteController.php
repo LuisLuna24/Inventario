@@ -7,14 +7,14 @@ use App\Models\Customer;
 use App\Models\Quote;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class QuoteController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+
     public function index()
     {
+        Gate::authorize('view-customers');
         return view("admin.sales.quotes.index");
     }
 
@@ -23,6 +23,7 @@ class QuoteController extends Controller
      */
     public function create()
     {
+        Gate::authorize('crate-customers');
         return view("admin.sales.quotes.create");
     }
 

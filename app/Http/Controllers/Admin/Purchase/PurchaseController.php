@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Purchase;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class PurchaseController extends Controller
 {
@@ -14,6 +15,7 @@ class PurchaseController extends Controller
      */
     public function index()
     {
+        Gate::authorize('view-purchases');
         return view("admin.purchases.purchases.index");
     }
 
@@ -22,11 +24,14 @@ class PurchaseController extends Controller
      */
     public function create()
     {
+        Gate::authorize('create-purchases');
+
         return view("admin.purchases.purchases.create");
     }
 
     public function pdf(Purchase $purchase)
     {
+
         $pdf = Pdf::loadView('admin.purchases.purchases.pdf', [
             'model' => $purchase,
         ]);

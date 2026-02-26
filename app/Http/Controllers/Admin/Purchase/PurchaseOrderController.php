@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\PurchaseOrder;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class PurchaseOrderController extends Controller
 {
@@ -14,6 +15,7 @@ class PurchaseOrderController extends Controller
      */
     public function index()
     {
+        Gate::authorize('view-purchase-orders');
         return view("admin.purchases.purchase_orders.index");
     }
 
@@ -22,14 +24,13 @@ class PurchaseOrderController extends Controller
      */
     public function create()
     {
+        Gate::authorize('create-purchase-orders');
         return view("admin.purchases.purchase_orders.create");
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function edit(Request $request, PurchaseOrder $purchaseOrder)
     {
+        Gate::authorize('edit-purchase-orders');
         return view("admin.purchases.purchase_orders.edit", compact("purchaseOrder"));
     }
 

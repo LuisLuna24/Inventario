@@ -18,8 +18,10 @@
         </div>
 
         <div class="my-2 flex md:ml-4 md:mt-0">
-            <x-w-button href="{{ route('admin.users.create') }}" blue icon="plus" label="Nuevo"
-                class="shadow-sm hover:shadow-md transition-all duration-200" />
+            @can('create-users')
+                <x-w-button href="{{ route('admin.users.create') }}" blue icon="plus" label="Nuevo"
+                    class="shadow-sm hover:shadow-md transition-all duration-200" />
+            @endcan
         </div>
     </div>
 

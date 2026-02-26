@@ -1,12 +1,17 @@
 <div class="flex items-center space-x-2">
-    <x-w-button href="{{ route('admin.products.kardex', $product) }}" green xs>{!! file_get_contents(public_path('svg/stack-2.svg')) !!}</x-w-button>
+    @can('view-products')
+        <x-w-button href="{{ route('admin.products.kardex', $product) }}" green xs>{!! file_get_contents(public_path('svg/stack-2.svg')) !!}</x-w-button>
+    @endcan
+    @can('edit-products')
+        <x-w-button href="{{ route('admin.products.edit', $product) }}" blue xs>{!! file_get_contents(public_path('svg/edit.svg')) !!}</x-w-button>
+    @endcan
+    @can('delete-products')
+        <form action="{{ route('admin.products.destroy', $product) }}" class="delete-form" method="post">
 
-    <x-w-button href="{{ route('admin.products.edit', $product) }}" blue xs>{!! file_get_contents(public_path('svg/edit.svg')) !!}</x-w-button>
-    <form action="{{ route('admin.products.destroy', $product) }}" class="delete-form" method="post">
+            @csrf
+            @method('DELETE')
 
-        @csrf
-        @method('DELETE')
-
-        <x-w-button type="submit" red xs>{!! file_get_contents(public_path('svg/trash.svg')) !!}</x-w-button>
-    </form>
+            <x-w-button type="submit" red xs>{!! file_get_contents(public_path('svg/trash.svg')) !!}</x-w-button>
+        </form>
+    @endcan
 </div>

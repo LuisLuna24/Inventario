@@ -81,6 +81,17 @@ class ItemGroup implements ItemInterface
 
     public function authorize(): bool
     {
-        return true;
+        // 1. Si el grupo tiene permisos propios, verificarlos primero
+        if (!empty($this->can) && !\Illuminate\Support\Facades\Gate::any($this->can)) {
+            return false;
+        }
+
+        // 2. Filtrar los items hijos: solo dejamos los que el usuario puede ver
+        $this->items = array_filter($this->items, function ($item) {
+            return $item->authorize();
+        });
+
+        // 3. El grupo solo se muestra si quedó al menos un hijo visible
+        return count($this->items) > 0;
     }
 }

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Movement;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class MovementController extends Controller
 {
@@ -14,6 +15,7 @@ class MovementController extends Controller
      */
     public function index()
     {
+        Gate::authorize('view-movements');
         return view("admin.movements.movements.index");
     }
 
@@ -22,6 +24,7 @@ class MovementController extends Controller
      */
     public function create()
     {
+        Gate::authorize('create-movements');
         return view("admin.movements.movements.create");
     }
 

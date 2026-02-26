@@ -53,9 +53,11 @@
                 </div>
 
                 <nav class="flex-1 overflow-y-auto p-4 space-y-1 custom-scrollbar">
-                    {{-- Aquí Laravel inyecta $itemsSidebar gracias al AppServiceProvider --}}
                     @foreach ($itemsSidebar as $link)
-                        {!! $link->render() !!}
+                        {{-- Solo renderiza si el método authorize retorna true --}}
+                        @if ($link->authorize())
+                            {!! $link->render() !!}
+                        @endif
                     @endforeach
                 </nav>
             </div>

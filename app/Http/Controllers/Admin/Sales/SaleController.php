@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Sale;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class SaleController extends Controller
 {
@@ -14,6 +15,7 @@ class SaleController extends Controller
      */
     public function index()
     {
+        Gate::authorize('view-sales');
         return view("admin.sales.sales.index");
     }
 
@@ -22,6 +24,7 @@ class SaleController extends Controller
      */
     public function create()
     {
+        Gate::authorize('create-sales');
         return view("admin.sales.sales.create");
     }
 

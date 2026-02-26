@@ -1,29 +1,31 @@
-<x-admin-layout title="Entradas y salidas | Inventarios" :breadcrumbs="[
+<x-admin-layout title="Roles | Inventarios" :breadcrumbs="[
     [
         'name' => 'Dashboard',
         'href' => route('admin.dashboard'),
     ],
     [
-        'name' => 'Entradas y salidas',
+        'name' => 'Roles',
     ],
 ]">
+
+
     <div class="flex items-center justify-between mb-8 pb-5 border-b border-gray-200 dark:border-gray-800">
         <div class="min-w-0 flex-1">
             <h1
                 class="text-2xl font-bold leading-7 text-gray-900 dark:text-white sm:truncate sm:text-3xl sm:tracking-tight">
-                {{ __('Entradas y salidas') }}
+                {{ __('Roles') }}
             </h1>
         </div>
 
         <div class="my-2 flex md:ml-4 md:mt-0">
-            @can('create-movements')
-                <x-w-button href="{{ route('admin.movements.create') }}" blue icon="plus" label="Nuevo"
+            @can('create-roles')
+                <x-w-button href="{{ route('admin.roles.create') }}" blue icon="plus" label="Nuevo"
                     class="shadow-sm hover:shadow-md transition-all duration-200" />
             @endcan
         </div>
     </div>
 
-    @livewire('admin.datatables.movements.Movement-table')
+    @livewire('admin.datatables.users.role-table')
 
     @push('js')
         <script>

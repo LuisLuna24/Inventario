@@ -16,8 +16,10 @@
         </div>
 
         <div class="my-2 flex md:ml-4 md:mt-0">
+            @can('create-purchase-orders')
             <x-w-button href="{{ route('admin.purchase_orders.create') }}" blue icon="plus" label="Nuevo"
                 class="shadow-sm hover:shadow-md transition-all duration-200" />
+            @endcan
         </div>
     </div>
 

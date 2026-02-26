@@ -24,6 +24,7 @@ return [
                 'route' => 'admin.categories.index',
                 'icon' => 'svg/list-check.svg',
                 'active' => 'admin.categories.*',
+                'can' => ['view-categories'],
             ],
             [
                 'type' => 'link',
@@ -31,6 +32,7 @@ return [
                 'route' => 'admin.products.index',
                 'icon' => 'svg/box.svg',
                 'active' => 'admin.products.*',
+                'can' => ['view-products'],
             ],
             [
                 'type' => 'link',
@@ -38,6 +40,7 @@ return [
                 'route' => 'admin.warehouses.index',
                 'icon' => 'svg/building-warehouse.svg',
                 'active' => 'admin.warehouses.*',
+                'can' => ['view-warehouses'],
             ],
         ],
     ],
@@ -59,6 +62,7 @@ return [
                 'icon' => 'svg/truck.svg',
                 'route' => 'admin.suppliers.index',
                 'active' => 'admin.suppliers.*',
+                'can' => ['view-suppliers'],
             ],
             [
                 'type' => 'link',
@@ -66,6 +70,7 @@ return [
                 'icon' => 'svg/report-money.svg',
                 'route' => 'admin.purchase_orders.index',
                 'active' => 'admin.purchase_orders.*',
+                'can' => ['view-purchase-orders'],
             ],
             [
                 'type' => 'link',
@@ -73,6 +78,7 @@ return [
                 'icon' => 'svg/clipboard-check.svg',
                 'route' => 'admin.purchases.index',
                 'active' => 'admin.purchases.*',
+                'can' => ['view-purchases'],
             ],
         ],
     ],
@@ -88,6 +94,7 @@ return [
                 'icon' => 'svg/users.svg',
                 'route' => 'admin.customers.index',
                 'active' => 'admin.customers.*',
+                'can' => ['view-customers'],
             ],
             [
                 'type' => 'link',
@@ -95,6 +102,7 @@ return [
                 'icon' => 'svg/clipboard-list.svg',
                 'route' => 'admin.quotes.index',
                 'active' => 'admin.quotes.*',
+                'can' => ['view-quotes'],
             ],
             [
                 'type' => 'link',
@@ -102,6 +110,7 @@ return [
                 'icon' => 'svg/shopping-cart-copy.svg',
                 'route' => 'admin.sales.index',
                 'active' => 'admin.sales.*',
+                'can' => ['view-sales'],
             ],
         ],
     ],
@@ -118,6 +127,7 @@ return [
                 'icon' => 'svg/arrows-exchange.svg',
                 'route' => 'admin.movements.index',
                 'active' => 'admin.movements.*',
+                'can' => ['view-movements'],
             ],
             [
                 'type' => 'link',
@@ -125,6 +135,7 @@ return [
                 'icon' => 'svg/transfer-in.svg',
                 'route' => 'admin.transfers.index',
                 'active' => 'admin.transfers.*',
+                'can' => ['view-transfers'],
             ],
         ],
     ],
@@ -141,6 +152,7 @@ return [
                 'icon' => 'svg/shopping-cart-share.svg',
                 'route' => 'admin.reports.top-products',
                 'active' => 'admin.reports.top-products',
+                'can' => ['view-top-products'],
             ],
             [
                 'type' => 'link',
@@ -148,6 +160,7 @@ return [
                 'icon' => 'svg/shopping-cart-down.svg',
                 'route' => 'admin.reports.low-stock',
                 'active' => 'admin.reports.low-stock',
+                'can' => ['view-low-stock'],
             ],
             [
                 'type' => 'link',
@@ -155,13 +168,16 @@ return [
                 'icon' => 'svg/user-up.svg',
                 'route' => 'admin.reports.top-costumers',
                 'active' => 'admin.reports.top-costumers',
+                'can' => ['view-top-customers'],
             ],
         ],
     ],
 
     [
         'type' => 'header',
-        'title' => 'Configuraión',
+        'title' => 'Configuración',
+        // Opcional: El header solo se ve si puede ver usuarios o roles
+        'can' => ['view-users', 'view-roles', 'view-settings'],
     ],
 
     [
@@ -170,29 +186,24 @@ return [
         'icon' => 'svg/users.svg',
         'route' => 'admin.users.index',
         'active' => ['admin.users.*'],
+        'can' => ['view-users'],
     ],
 
     [
         'type' => 'link',
         'title' => 'Roles',
         'icon' => 'svg/circles.svg',
-        'route' => 'admin.customers.index',
-        'active' => ['admin.categories.*'],
-    ],
-
-    [
-        'type' => 'link',
-        'title' => 'Permisos',
-        'icon' => 'svg/shield-lock.svg',
-        'route' => 'admin.customers.index',
-        'active' => ['admin.categories.*'],
+        'route' => 'admin.roles.index',
+        'active' => ['admin.roles.*'],
+        'can' => ['view-roles'],
     ],
 
     [
         'type' => 'link',
         'title' => 'Ajustes',
         'icon' => 'svg/settings.svg',
-        'route' => 'admin.customers.index',
-        'active' => ['admin.categories.*'],
+        'route' => 'admin.customers.index', // Nota: Aquí tenías admin.customers.index, cámbialo si tienes una ruta de ajustes
+        'active' => ['admin.settings.*'],
+        'can' => ['view-settings'],
     ],
 ];

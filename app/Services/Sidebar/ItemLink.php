@@ -52,6 +52,12 @@ class ItemLink implements ItemInterface
 
     public function authorize(): bool
     {
-        return true;
+        // Si no hay permisos definidos, el link es público
+        if (empty($this->can)) {
+            return true;
+        }
+
+        // Verificamos si el usuario tiene al menos uno de los permisos (usando el Gate de Laravel)
+        return \Illuminate\Support\Facades\Gate::any($this->can);
     }
 }

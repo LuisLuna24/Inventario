@@ -4,8 +4,8 @@
         'href' => route('admin.dashboard'),
     ],
     [
-        'name' => 'Clientes',
-        'href' => route('admin.customers.index'),
+        'name' => 'Usuarios',
+        'href' => route('admin.users.index'),
     ],
     [
         'name' => 'Nuevo Cliente',

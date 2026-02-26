@@ -28,11 +28,10 @@
         </div>
 
         <div class="my-2 flex md:ml-4 md:mt-0 gap-3">
-            <x-w-button href="{{ route('admin.products.import') }}" green
-                class="shadow-sm hover:shadow-md transition-all duration-200">{!! file_get_contents(public_path('/svg/file-import.svg')) !!}
-                Importar</x-w-button>
-            <x-w-button href="{{ route('admin.products.create') }}" blue icon="plus" label="Nuevo"
-                class="shadow-sm hover:shadow-md transition-all duration-200" />
+            @can('create-products')
+                <x-w-button href="{{ route('admin.products.create') }}" blue icon="plus" label="Nuevo"
+                    class="shadow-sm hover:shadow-md transition-all duration-200" />
+            @endcan
         </div>
     </div>
     @livewire('admin.datatables.inventories.product-table')

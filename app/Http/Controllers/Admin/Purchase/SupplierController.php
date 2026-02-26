@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Identity;
 use App\Models\Supplier;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Session;
 
 class SupplierController extends Controller
@@ -15,24 +16,26 @@ class SupplierController extends Controller
      */
     public function index()
     {
-
+        Gate::authorize('view-suppliers');
         return view("admin.purchases.suppliers.index");
     }
 
     public function create()
     {
+        Gate::authorize('create-suppliers');
         return view("admin.purchases.suppliers.create");
     }
 
     public function edit(Supplier $supplier)
     {
-
+        Gate::authorize('edit-suppliers');
         return view("admin.purchases.suppliers.edit", compact("supplier"));
     }
 
 
     public function destroy(Supplier $supplier)
     {
+        Gate::authorize('delete-suppliers');
         if ($supplier->purchaseOrders()->exists()) {
             Session::flash('swal', [
                 'icon' => 'error',

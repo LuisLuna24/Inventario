@@ -25,6 +25,9 @@ class ItemHeader implements ItemInterface
 
     public function authorize(): bool
     {
-        return true;
+        if (empty($this->can)) {
+            return true;
+        }
+        return \Illuminate\Support\Facades\Gate::any($this->can);
     }
 }
